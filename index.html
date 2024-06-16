@@ -3,32 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Random String Generator</title>
+<title>Fixed Random String Generator</title>
 <script>
-  // Function to generate a random alphanumeric string
-  function generateRandomString(length) {
+  // Function to generate a fixed random alphanumeric string
+  function generateFixedRandomString(length) {
+    const seed = 12345; // Seed value for consistency
     const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     for (let i = 0; i < length; i++) {
-      result += charset.charAt(Math.floor(Math.random() * charset.length));
+      // Use a predictable randomization based on the seed
+      const randomIndex = (seed + i) % charset.length;
+      result += charset.charAt(randomIndex);
     }
     return result;
   }
 
-  // Function to update the <p> element with a new random string
+  // Function to update the <p> element with the fixed random string
   function updateRandomString() {
-    const randomString = generateRandomString(10);
+    const randomString = generateFixedRandomString(10); // Length 10 as specified
     document.getElementById('randomString').textContent = randomString;
   }
 
   // Update random string initially and start the interval
   document.addEventListener('DOMContentLoaded', function() {
     updateRandomString(); // Initial update
-    setInterval(updateRandomString, 30000); // Update every 1 minute (60000 milliseconds)
+    // No need for setInterval as the string is fixed, it doesn't change over time
   });
 </script>
 </head>
 <body>
-  <p id="randomString">Random String</p>
+  <p id="randomString">Fixed Random String</p>
 </body>
 </html>
