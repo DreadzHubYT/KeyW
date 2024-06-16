@@ -34,7 +34,11 @@
 
         // Function to update the text content
         function updateText() {
-            const randomSeed = generateRandomSeed();
+            let randomSeed = localStorage.getItem('randomSeed');
+            if (!randomSeed) {
+                randomSeed = generateRandomSeed();
+                localStorage.setItem('randomSeed', randomSeed);
+            }
             document.getElementById('random-text').textContent = `Random Seed: ${randomSeed}`;
         }
 
@@ -44,4 +48,3 @@
     </script>
 </body>
 </html>
-
