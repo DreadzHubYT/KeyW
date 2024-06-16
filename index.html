@@ -5,49 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fixed Random String Generator</title>
 <script>
-  // Function to generate a random alphanumeric string of given length
-  function generateRandomString(length) {
+  // Function to generate a fixed random alphanumeric string based on a seed
+  function generateFixedRandomString(length) {
+    const seed = 12345; // Fixed seed value for consistency
     const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * charset.length);
+      const randomIndex = (seed + i) % charset.length;
       result += charset.charAt(randomIndex);
     }
     return result;
   }
 
-  let currentRandomString = ''; // Variable to hold the current random string
-
-  // Function to update the <p> element with the current random string
+  // Function to update the <p> element with the fixed random string
   function updateRandomString() {
-    // Generate a new random string only if currentRandomString is empty or after 10 seconds
-    if (currentRandomString === '' || shouldUpdate()) {
-      currentRandomString = generateRandomString(10); // Length 10 as specified
-    }
-    document.getElementById('randomString').textContent = currentRandomString;
+    const randomString = generateFixedRandomString(10); // Length 10 as specified
+    document.getElementById('randomString').textContent = randomString;
   }
-
-  // Function to check if it's time to update (every 10 seconds)
-  function shouldUpdate() {
-    const currentTime = new Date().getTime();
-    if (!lastUpdateTime) {
-      lastUpdateTime = currentTime;
-      return true;
-    }
-    if (currentTime - lastUpdateTime >= 10000) {
-      lastUpdateTime = currentTime;
-      return true;
-    }
-    return false;
-  }
-
-  let lastUpdateTime = 0; // Variable to store the timestamp of the last update
 
   // Update random string initially on page load
   document.addEventListener('DOMContentLoaded', function() {
     updateRandomString(); // Initial update
-    // Set interval to update random string every second
-    setInterval(updateRandomString, 5000);
+    // Set interval to update random string every 10 seconds
+    setInterval(updateRandomString, 10000);
   });
 </script>
 </head>
@@ -55,3 +35,4 @@
   <p id="randomString">Fixed Random String</p>
 </body>
 </html>
+
