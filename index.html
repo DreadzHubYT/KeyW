@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Updating Random String Generator</title>
+<title>Fixed Random String Generator</title>
 <script>
   // Function to generate a random alphanumeric string of given length
   function generateRandomString(length) {
@@ -16,22 +16,42 @@
     return result;
   }
 
-  // Function to update the <p> element with a new random string
+  let currentRandomString = ''; // Variable to hold the current random string
+
+  // Function to update the <p> element with the current random string
   function updateRandomString() {
-    const randomString = generateRandomString(10); // Length 10 as specified
-    document.getElementById('randomString').textContent = randomString;
+    // Generate a new random string only if currentRandomString is empty or after 10 seconds
+    if (currentRandomString === '' || shouldUpdate()) {
+      currentRandomString = generateRandomString(10); // Length 10 as specified
+    }
+    document.getElementById('randomString').textContent = currentRandomString;
   }
+
+  // Function to check if it's time to update (every 10 seconds)
+  function shouldUpdate() {
+    const currentTime = new Date().getTime();
+    if (!lastUpdateTime) {
+      lastUpdateTime = currentTime;
+      return true;
+    }
+    if (currentTime - lastUpdateTime >= 10000) {
+      lastUpdateTime = currentTime;
+      return true;
+    }
+    return false;
+  }
+
+  let lastUpdateTime = 0; // Variable to store the timestamp of the last update
 
   // Update random string initially on page load
   document.addEventListener('DOMContentLoaded', function() {
     updateRandomString(); // Initial update
-    // Set interval to update random string every 10 seconds (10000 milliseconds)
-    setInterval(updateRandomString, 10000);
+    // Set interval to update random string every second
+    setInterval(updateRandomString, 5000);
   });
 </script>
 </head>
 <body>
-  <p id="randomString">Updating Random String</p>
+  <p id="randomString">Fixed Random String</p>
 </body>
 </html>
-
