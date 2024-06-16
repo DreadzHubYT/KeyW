@@ -1,38 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fixed Random String Generator</title>
-<script>
-  // Function to generate a fixed random alphanumeric string based on a seed
-  function generateFixedRandomString(length) {
-    const seed = 12345; // Fixed seed value for consistency
-    const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      const randomIndex = (seed + i) % charset.length;
-      result += charset.charAt(randomIndex);
-    }
-    return result;
-  }
-
-  // Function to update the <p> element with the fixed random string
-  function updateRandomString() {
-    const randomString = generateFixedRandomString(10); // Length 10 as specified
-    document.getElementById('randomString').textContent = randomString;
-  }
-
-  // Update random string initially on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    updateRandomString(); // Initial update
-    // Set interval to update random string every 10 seconds
-    setInterval(updateRandomString, 10000);
-  });
-</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Seed Text</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        #random-text {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-  <p id="randomString">Fixed Random String</p>
+    <div class="container">
+        <h1 id="random-text">Loading...</h1>
+    </div>
+
+    <script>
+        // Function to generate random alphanumeric seed
+        function generateRandomSeed() {
+            return Math.random().toString(36).substr(2, 8); // Generate 8-character alphanumeric string
+        }
+
+        // Function to update the text content
+        function updateText() {
+            const randomSeed = generateRandomSeed();
+            document.getElementById('random-text').textContent = `Random Seed: ${randomSeed}`;
+        }
+
+        // Update text initially and then every 10 seconds
+        updateText();
+        setInterval(updateText, 10000); // 10000 milliseconds = 10 seconds
+    </script>
 </body>
 </html>
 
